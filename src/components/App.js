@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
-import { DateInput } from 'semantic-ui-calendar-react';
 import {
   Form,
   Button,
@@ -11,8 +10,8 @@ import {
   Icon,
   Segment
 } from 'semantic-ui-react';
-
 import 'semantic-ui-css/semantic.css';
+import { DateInput } from 'semantic-ui-calendar-react';
 import styles from './App.module.scss';
 
 const initialState = {
@@ -327,8 +326,9 @@ class App extends React.Component {
                 placeholder="DD / MM / YYYY"
                 dateFormat="DD / MM / YYYY"
                 value={dateOfPlanting}
+                icon="calendar outline"
                 iconPosition="right"
-                popupPosition="top right"
+                popupPosition="bottom right"
                 onChange={this.handleSelectionChange}
               />
               {this.renderErrorMessage(errors, 'Date')}

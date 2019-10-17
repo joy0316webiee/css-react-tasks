@@ -180,10 +180,13 @@
               }
             }
           }
+
           div {
-            padding: 8px;
-            font-size: 14px;
-            font-weight: normal;
+            @include screen-sm {
+              padding: 8px;
+              font-size: 14px;
+              font-weight: normal;
+            }
           }
         }
         .datePicker {
