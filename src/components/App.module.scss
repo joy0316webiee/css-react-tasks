@@ -1,0 +1,266 @@
+@import 'constants/base.scss';
+
+.App {
+  width: 700px;
+  margin: 50px auto;
+
+  @include screen-md {
+    width: 500px;
+  }
+  @include screen-sm {
+    width: 350px;
+  }
+  @include screen-xs {
+    width: 268px;
+  }
+
+  .formHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    box-shadow: none;
+    padding: 10px 0 0 5px;
+    margin-bottom: 20px;
+
+    .formTitle {
+      width: 150px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      background: transparent;
+      font-size: 17px;
+      font-weight: bold;
+      padding: 0;
+      margin: 0;
+    }
+
+    .iconBack {
+      font-size: 14px;
+      line-height: 14px;
+      margin-right: 10px;
+      display: none;
+
+      @include screen-sm {
+        display: inline-block;
+      }
+    }
+  }
+
+  .formContent {
+    .formGroup {
+      margin: 10px 0;
+
+      @include screen-md {
+        flex-wrap: nowrap;
+      }
+
+      .formField {
+        @include screen-xs {
+          &.blockSize {
+            padding-left: 15px;
+          }
+        }
+
+        &.crops {
+          .cropOptions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+
+            .cropOption {
+              text-align: center;
+              max-width: 130px;
+              margin: 0px 15px 7px 0;
+              padding: 10px 22px;
+              border: 1px solid $grey-100;
+              border-radius: 20px;
+              transition: 0.3s ease-out;
+              cursor: pointer;
+
+              @include screen-xs {
+                margin: 0px 6px 5px 0;
+                padding: 3px 15px;
+              }
+
+              &:first-child {
+                margin-left: 0;
+              }
+
+              &:hover {
+                border: 1px solid $lightblue-200;
+              }
+              &.active {
+                border: 1px solid $white;
+                background: $lightblue-200;
+
+                span {
+                  color: $white;
+                }
+              }
+
+              span {
+                color: $grey-300;
+
+                @include screen-xs {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+
+        label {
+          width: fit-content;
+          color: $grey-250;
+          font-size: 15px;
+          font-weight: normal;
+          position: relative;
+
+          @include screen-xs {
+            font-size: 13px;
+          }
+
+          &.asterisk {
+            &::after {
+              content: '*';
+              position: absolute;
+              top: 50%;
+              right: -7px;
+              transform: translateY(-50%);
+              color: $red;
+            }
+          }
+        }
+        input {
+          font-size: 15px;
+
+          @include screen-sm {
+            font-size: 14px;
+          }
+          @include screen-xs {
+            font-size: 13px;
+            height: 30px;
+
+            &.inputBlockName {
+              width: 150px;
+            }
+            &.inputNoTrees {
+              width: 115px;
+            }
+          }
+
+          &:disabled {
+            background: $grey-200;
+          }
+        }
+        textarea {
+          resize: none;
+
+          @include screen-xs {
+            font-size: 13px;
+          }
+        }
+        .formInput {
+          input {
+            flex: 1;
+            width: inherit;
+
+            @include screen-sm {
+              &::placeholder {
+                font-size: 12.5px;
+              }
+            }
+            @include screen-xs {
+              padding: 2px;
+
+              &::placeholder {
+                font-size: 10px;
+              }
+            }
+          }
+          div {
+            padding: 8px;
+            font-size: 14px;
+            font-weight: normal;
+          }
+        }
+        .datePicker {
+          @include screen-xs {
+            width: 160px;
+          }
+        }
+        .farmStatusSelect {
+          border: 1px solid $pink-200;
+          border-radius: 20px;
+
+          @include screen-xs {
+            width: 120px;
+            height: 30px;
+            min-width: unset;
+            min-height: unset;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 10px;
+
+            > div:first-child {
+              font-size: 12px;
+            }
+            > div:last-child {
+              span {
+                font-size: 12px;
+              }
+            }
+            i {
+              padding: 7px 1px;
+            }
+          }
+
+          > div:last-child {
+            border-color: $pink-200;
+            border-width: 1px;
+          }
+        }
+      }
+    }
+
+    .labelForStructure {
+      color: $grey-500;
+      background: transparent;
+      margin: 20px 0;
+      padding: 0;
+      font-size: 20px;
+      font-weight: normal;
+    }
+    .submitButton {
+      width: 70px;
+      height: 35px;
+      font-size: 12px;
+      color: $white;
+      background: $grey-400;
+      transition: background-color 0.3s ease-out;
+
+      @include screen-sm {
+        position: absolute;
+        right: 16px;
+        top: -57px;
+      }
+      @include screen-xs {
+        right: 16px;
+        top: -57px;
+      }
+
+      &:hover {
+        background: $lightblue-200;
+        color: $lightblue-100;
+      }
+      &:active {
+        border-right: 2px solid;
+        border-bottom: 2px solid;
+      }
+    }
+  }
+}
