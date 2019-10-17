@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import FarmForm from './components/FarmForm';
 
 import './index.scss';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<FarmForm />, document.getElementById('root'));

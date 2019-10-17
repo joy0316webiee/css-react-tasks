@@ -12,7 +12,7 @@ import {
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.css';
 import { DateInput } from 'semantic-ui-calendar-react';
-import styles from './App.module.scss';
+import styles from './styles.module.scss';
 
 const initialState = {
   name: '',
@@ -31,7 +31,7 @@ const initialState = {
   errors: []
 };
 
-class App extends React.Component {
+class FarmForm extends React.Component {
   state = { ...initialState };
 
   handleSelectionChange = (event, { name, value }) => {
@@ -179,7 +179,7 @@ class App extends React.Component {
     };
 
     return (
-      <div className={styles.App}>
+      <div className={styles.farmFormWrapper}>
         <Segment className={styles.formHeader}>
           <h2 className={styles.formTitle}>
             <Icon className={styles.iconBack} name="angle left" />
@@ -378,4 +378,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default FarmForm;
