@@ -1,17 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
-import {
-  Form,
-  Button,
-  Input,
-  Label,
-  Select,
-  Icon,
-  Segment
-} from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.css';
+import { Form, Button, Input, Label, Select, Icon, Segment } from 'semantic-ui-react';
 import { DateInput } from 'semantic-ui-calendar-react';
+import 'semantic-ui-css/semantic.css';
+
 import styles from './styles.module.scss';
 
 const initialState = {
@@ -38,8 +31,7 @@ class FarmForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleInputChange = event =>
-    this.setState({ [event.target.name]: event.target.value });
+  handleInputChange = event => this.setState({ [event.target.name]: event.target.value });
 
   handleCropOptionSelect = option => {
     const { crops } = this.state;
@@ -55,9 +47,7 @@ class FarmForm extends React.Component {
     event.preventDefault();
 
     const errors = this.validateForm();
-    this.setState({ errors });
-
-    if (errors.length === 0) {
+    if (this.isEmpty(errors)) {
       const { rowSpacing, treeSpacing, size, dateOfPlanting } = this.state;
       const treesPerHa = (10000 / rowSpacing / treeSpacing).toFixed(3);
       const treesPerVines = (size * treesPerHa).toFixed(3);
@@ -65,62 +55,29 @@ class FarmForm extends React.Component {
         .fromNow()
         .split(' ')[0];
 
-      this.setState({
-        treesPerHa,
-        treesPerVines,
-        age
+      this.setState({ treesPerHa, treesPerVines, age, errors }, () => {
+        const payload = { ...this.state };
+        console.log(payload);
       });
-
-      const payload = { ...this.state };
-      console.log(payload);
+    } else {
+      this.setState({ errors });
     }
   };
 
   validateForm = () => {
-    const {
-      name,
-      size,
-      crops,
-      noRows,
-      rowSpacing,
-      treeSpacing,
-      noTrees,
-      dateOfPlanting,
-      farmStatus,
-      comments
-    } = this.state;
-
     let errors = [];
-    if (this.isEmpty(name)) errors.push('Block name is required!');
-    if (this.isEmpty(size)) {
-      errors.push("Block's size is required!");
-    } else if (!this.isPositiveFloat(size)) {
-      errors.push("Block's size should be positive float!");
-    }
-    if (this.isEmpty(crops)) errors.push('Crops are required!');
-    if (this.isEmpty(noRows)) {
-      errors.push('No. Rows is required!');
-    } else if (!this.isPositiveFloat(noRows)) {
-      errors.push('No. Rows should be positive float!');
-    }
-    if (this.isEmpty(rowSpacing)) {
-      errors.push('Row spacing is required!');
-    } else if (!this.isPositiveFloat(rowSpacing)) {
-      errors.push('Row spacing should be positive float!');
-    }
-    if (this.isEmpty(treeSpacing)) {
-      errors.push('Tree spacing is required!');
-    } else if (!this.isPositiveFloat(treeSpacing)) {
-      errors.push('Tree spacing should be positive float!');
-    }
-    if (this.isEmpty(noTrees)) {
-      errors.push('No. of Trees is required!');
-    } else if (!this.isPositiveFloat(noTrees)) {
-      errors.push('No. of Trees should be positive float!');
-    }
-    if (this.isEmpty(dateOfPlanting)) errors.push('Date is required!');
-    if (this.isEmpty(farmStatus)) errors.push('Farm Status is required!');
-    if (this.isEmpty(comments)) errors.push('Comments is required!');
+
+    Object.entries(this.state).forEach(([key, value]) => {
+      if (this.isEmpty(this.state[key]) && key !== 'errors') {
+        errors.push(`Field ${key} is required!`);
+      }
+    });
+    ['size', 'noRows', 'rowSpacing', 'treeSpacing', 'noTrees'].forEach(key => {
+      if (errors.some(error => error.includes(key))) return;
+      if (!this.isPositiveFloat(this.state[key])) {
+        errors.push(`Field ${key} should be positive float!`);
+      }
+    });
 
     return errors;
   };
@@ -159,13 +116,7 @@ class FarmForm extends React.Component {
       errors
     } = this.state;
 
-    const cropOptions = [
-      'Apples',
-      'Pears',
-      'Stone Fruits',
-      'Table Grape',
-      'Citrus'
-    ];
+    const cropOptions = ['Apples', 'Pears', 'Stone Fruits', 'Table Grape', 'Citrus'];
     const farmStatusOptions = [
       { key: 'pt', value: 'planting', text: 'Planting' },
       { key: 'gw', value: 'growing', text: 'Growing' }
@@ -198,15 +149,11 @@ class FarmForm extends React.Component {
                 value={name}
                 onChange={this.handleInputChange}
               />
-              {this.renderErrorMessage(errors, 'Block name')}
+              {this.renderErrorMessage(errors, 'name')}
             </Form.Field>
             <Form.Field className={classes.fieldBlockSize} width={4}>
               <label className={styles.asterisk}>Block's size</label>
-              <Input
-                className={styles.formInput}
-                labelPosition="right"
-                type="text"
-              >
+              <Input className={styles.formInput} labelPosition="right" type="text">
                 <input
                   name="size"
                   type="text"
@@ -216,7 +163,7 @@ class FarmForm extends React.Component {
                 />
                 <Label>Ha</Label>
               </Input>
-              {this.renderErrorMessage(errors, "Block's size")}
+              {this.renderErrorMessage(errors, 'size')}
             </Form.Field>
           </Form.Group>
 
@@ -234,7 +181,7 @@ class FarmForm extends React.Component {
                   </div>
                 ))}
               </div>
-              {this.renderErrorMessage(errors, 'Crops')}
+              {this.renderErrorMessage(errors, 'crops')}
             </Form.Field>
           </Form.Group>
 
@@ -249,7 +196,7 @@ class FarmForm extends React.Component {
                 value={noRows}
                 onChange={this.handleInputChange}
               />
-              {this.renderErrorMessage(errors, 'No. Rows')}
+              {this.renderErrorMessage(errors, 'noRows')}
             </Form.Field>
             <Form.Field className={styles.formField}>
               <label className={styles.asterisk}>Row spacing</label>
@@ -268,7 +215,7 @@ class FarmForm extends React.Component {
                 />
                 <Label>m</Label>
               </Input>
-              {this.renderErrorMessage(errors, 'Row spacing')}
+              {this.renderErrorMessage(errors, 'rowSpacing')}
             </Form.Field>
             <Form.Field className={styles.formField}>
               <label className={styles.asterisk}>Tree spacing</label>
@@ -287,7 +234,7 @@ class FarmForm extends React.Component {
                 />
                 <Label>m</Label>
               </Input>
-              {this.renderErrorMessage(errors, 'Tree spacing')}
+              {this.renderErrorMessage(errors, 'treeSpacing')}
             </Form.Field>
           </Form.Group>
 
@@ -313,7 +260,7 @@ class FarmForm extends React.Component {
                 placeholder="0"
                 onChange={this.handleInputChange}
               />
-              {this.renderErrorMessage(errors, 'No. of Trees')}
+              {this.renderErrorMessage(errors, 'noTrees')}
             </Form.Field>
           </Form.Group>
 
@@ -331,7 +278,7 @@ class FarmForm extends React.Component {
                 popupPosition="bottom right"
                 onChange={this.handleSelectionChange}
               />
-              {this.renderErrorMessage(errors, 'Date')}
+              {this.renderErrorMessage(errors, 'dateOfPlanting')}
             </Form.Field>
             <Form.Field className={styles.formField} width={3}>
               <label>Age</label>
@@ -349,7 +296,7 @@ class FarmForm extends React.Component {
                 options={farmStatusOptions}
                 onChange={this.handleSelectionChange}
               />
-              {this.renderErrorMessage(errors, 'Farm Status')}
+              {this.renderErrorMessage(errors, 'farmStatus')}
             </Form.Field>
           </Form.Group>
 
@@ -361,7 +308,7 @@ class FarmForm extends React.Component {
                 rows="4"
                 onChange={this.handleInputChange}
               />
-              {this.renderErrorMessage(errors, 'Comments')}
+              {this.renderErrorMessage(errors, 'comments')}
             </Form.Field>
           </Form.Group>
 
