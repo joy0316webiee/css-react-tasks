@@ -56,7 +56,7 @@ class FarmForm extends React.Component {
         .split(' ')[0];
 
       this.setState({ treesPerHa, treesPerVines, age, errors }, () => {
-        const payload = { ...this.state };
+        const { errors, ...payload } = this.state;
         console.log(payload);
       });
     } else {
@@ -101,20 +101,8 @@ class FarmForm extends React.Component {
   };
 
   render() {
-    const {
-      name,
-      size,
-      crops,
-      noRows,
-      rowSpacing,
-      treeSpacing,
-      treesPerHa,
-      treesPerVines,
-      noTrees,
-      dateOfPlanting,
-      age,
-      errors
-    } = this.state;
+    // prettier-ignore
+    const { name, size, crops, noRows, rowSpacing, treeSpacing, treesPerHa, treesPerVines, noTrees, dateOfPlanting, age, errors } = this.state;
 
     const cropOptions = ['Apples', 'Pears', 'Stone Fruits', 'Table Grape', 'Citrus'];
     const farmStatusOptions = [
@@ -125,8 +113,9 @@ class FarmForm extends React.Component {
     const classes = {
       fieldBlockSize: clsx(styles.formField, styles.blockSize),
       fieldCrops: clsx(styles.formField, styles.crops),
-      cropOption: option =>
-        clsx(styles.cropOption, crops.includes(option) && styles.active)
+      cropOption: option => {
+        return clsx(styles.cropOption, crops.includes(option) && styles.active);
+      }
     };
 
     return (
