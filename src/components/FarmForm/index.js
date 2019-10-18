@@ -275,7 +275,7 @@ class FarmForm extends React.Component {
                 value={dateOfPlanting}
                 icon="calendar outline"
                 iconPosition="right"
-                popupPosition="bottom right"
+                popupPosition="top right"
                 onChange={this.handleSelectionChange}
               />
               {this.renderErrorMessage(errors, 'dateOfPlanting')}
